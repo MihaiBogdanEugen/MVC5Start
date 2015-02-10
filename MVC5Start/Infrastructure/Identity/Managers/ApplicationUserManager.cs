@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -17,7 +19,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<WebAppDbContext>()));
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
@@ -60,6 +62,15 @@ namespace MVC5Start.Infrastructure.Identity.Managers
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
+        }
+
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(ApplicationUser user)
+        {
+            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+            var userIdentity = await this.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+
+            // Add custom user claims here
+            return userIdentity;
         }
     }
 }

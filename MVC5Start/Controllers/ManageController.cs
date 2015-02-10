@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MVC5Start.Infrastructure.Identity.Managers;
 using MVC5Start.Models;
+using MVC5Start.VIewModels.Manage;
 
 namespace MVC5Start.Controllers
 {

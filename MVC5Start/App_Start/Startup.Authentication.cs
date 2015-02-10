@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
+using MVC5Start.Infrastructure;
 using Owin;
 using MVC5Start.Models;
 using MVC5Start.Infrastructure.Identity.Managers;
@@ -15,7 +16,7 @@ namespace MVC5Start
         public void ConfigureAuthentication(IAppBuilder application)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            application.CreatePerOwinContext(ApplicationDbContext.Create);
+            application.CreatePerOwinContext(WebAppDbContext.Create);
             application.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             application.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
@@ -32,7 +33,7 @@ namespace MVC5Start
                     // This is a security feature which is used when you change a password or add an external login to your account.  
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
                         validateInterval: TimeSpan.FromMinutes(30),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                        regenerateIdentity: (manager, user) => manager.GenerateUserIdentityAsync(user))
                 }
             });            
             application.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
