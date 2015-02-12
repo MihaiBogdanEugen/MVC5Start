@@ -7,21 +7,22 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using MVC5Start.Infrastructure.Services;
 using MVC5Start.Models;
+using MVC5Start.Models.Identity;
 
 namespace MVC5Start.Infrastructure.Identity.Managers
 {
-    public class ApplicationUserManager : UserManager<ApplicationUser>
+    public class ApplicationUserManager : UserManager<User>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store)
+        public ApplicationUserManager(IUserStore<User> store)
             : base(store)
         {
         }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<WebAppDbContext>()));
+            var manager = new ApplicationUserManager(new UserStore<User>(context.Get<WebAppDbContext>()));
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<ApplicationUser>(manager)
+            manager.UserValidator = new UserValidator<User>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
@@ -44,11 +45,11 @@ namespace MVC5Start.Infrastructure.Identity.Managers
 
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug it in here.
-            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
+            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<User>
             {
                 MessageFormat = "Your security code is {0}"
             });
-            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
+            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<User>
             {
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
@@ -59,12 +60,12 @@ namespace MVC5Start.Infrastructure.Identity.Managers
             if (dataProtectionProvider != null)
             {
                 manager.UserTokenProvider = 
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                    new DataProtectorTokenProvider<User>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
         }
 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(ApplicationUser user)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(User user)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await this.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);

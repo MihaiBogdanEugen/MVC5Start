@@ -166,12 +166,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Identity\Stores\RoleStore.cs" />
+    <Compile Include="Infrastructure\Identity\Stores\UserStore.cs" />
     <Compile Include="Infrastructure\WebAppDbContext.cs" />
     <Compile Include="Infrastructure\Identity\Managers\ApplicationSignInManager.cs" />
     <Compile Include="Infrastructure\Identity\Managers\ApplicationUserManager.cs" />
     <Compile Include="Infrastructure\Services\EmailService.cs" />
     <Compile Include="Infrastructure\Services\SmsService.cs" />
-    <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\Identity\Role.cs" />
+    <Compile Include="Models\Identity\User.cs" />
+    <Compile Include="Models\Identity\UserClaim.cs" />
+    <Compile Include="Models\Identity\UserLogin.cs" />
+    <Compile Include="Models\Identity\UserRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\Account\ExternalLoginConfirmationViewModel.cs" />
@@ -261,7 +267,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Infrastructure\Identity\Stores\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

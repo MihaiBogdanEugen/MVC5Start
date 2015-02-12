@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Microsoft.AspNet.Identity.EntityFramework;
-using MVC5Start.Models;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using MVC5Start.Models.Identity;
 
 namespace MVC5Start.Infrastructure
 {
-    public class WebAppDbContext : IdentityDbContext<ApplicationUser>
+    public class WebAppDbContext : IdentityDbContext<User, Role, int, UserLogin, UserRole, UserClaim>
     {
         public WebAppDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("DefaultConnection")
         {
         }
 
