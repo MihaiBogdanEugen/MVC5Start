@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using MVC5Start.Models;
 using MVC5Start.Models.Identity;
 
 namespace MVC5Start.Infrastructure.Identity.Managers
@@ -17,7 +16,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
 
         public override Task<ClaimsIdentity> CreateUserIdentityAsync(User user)
         {
-            return ((ApplicationUserManager)UserManager).GenerateUserIdentityAsync(user);
+            return ((ApplicationUserManager)this.UserManager).GenerateUserIdentityAsync(user);
         }
 
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)

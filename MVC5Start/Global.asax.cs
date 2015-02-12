@@ -8,7 +8,7 @@ using System.Web.Routing;
 
 namespace MVC5Start
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
@@ -16,6 +16,7 @@ namespace MVC5Start
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            SimpleInjector.Configure();
         }
     }
 }

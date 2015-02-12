@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -9,9 +6,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MVC5Start.Infrastructure.Identity.Managers;
-using MVC5Start.Models;
-using MVC5Start.VIewModels;
-using MVC5Start.VIewModels.Account;
+using MVC5Start.Models.Identity;
+using MVC5Start.ViewModels.Account;
 
 namespace MVC5Start.Controllers
 {
@@ -178,9 +174,9 @@ namespace MVC5Start.Controllers
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        public async Task<ActionResult> ConfirmEmail(int userId, string code)
         {
-            if (userId == null || code == null)
+            if (userId < 1 || code == null)
             {
                 return View("Error");
             }

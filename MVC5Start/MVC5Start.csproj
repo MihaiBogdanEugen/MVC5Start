@@ -43,18 +43,35 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="Dapper">
+      <HintPath>..\packages\Dapper.1.38\lib\net45\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MiniProfiler">
+      <HintPath>..\packages\MiniProfiler.3.0.10\lib\net40\MiniProfiler.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniProfiler.Mvc">
+      <HintPath>..\packages\MiniProfiler.Mvc4.3.0.11\lib\net40\MiniProfiler.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector">
+      <HintPath>..\packages\SimpleInjector.2.7.1\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Diagnostics">
+      <HintPath>..\packages\SimpleInjector.2.7.1\lib\net45\SimpleInjector.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.2.7.1\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web.Mvc">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.Mvc.2.7.1\lib\net40\SimpleInjector.Integration.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="StackExchange.Exceptional">
+      <HintPath>..\packages\StackExchange.Exceptional.1.0.111\lib\StackExchange.Exceptional.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -121,9 +138,6 @@
     <Reference Include="Microsoft.AspNet.Identity.Owin">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.1.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
-      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
@@ -159,20 +173,30 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SimpleInjector.cs" />
     <Compile Include="App_Start\Startup.Authentication.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\BaseStore.cs" />
+    <Compile Include="Infrastructure\DbConnectionInfo.cs" />
+    <Compile Include="Infrastructure\Identity\Managers\ApplicationRoleManager.cs" />
     <Compile Include="Infrastructure\Identity\Stores\RoleStore.cs" />
     <Compile Include="Infrastructure\Identity\Stores\UserStore.cs" />
-    <Compile Include="Infrastructure\WebAppDbContext.cs" />
+    <Compile Include="Infrastructure\Services\ConfigurationService.cs" />
+    <Compile Include="Infrastructure\Services\DateTimeService.cs" />
+    <Compile Include="Infrastructure\Sql.cs" />
     <Compile Include="Infrastructure\Identity\Managers\ApplicationSignInManager.cs" />
     <Compile Include="Infrastructure\Identity\Managers\ApplicationUserManager.cs" />
     <Compile Include="Infrastructure\Services\EmailService.cs" />
     <Compile Include="Infrastructure\Services\SmsService.cs" />
+    <Compile Include="Models\Definitions\BaseIdAddedAtEntity.cs" />
+    <Compile Include="Models\Definitions\BaseIdAddedAtModifiedAtEntity.cs" />
+    <Compile Include="Models\Definitions\BaseIdEntity.cs" />
     <Compile Include="Models\Identity\Role.cs" />
     <Compile Include="Models\Identity\User.cs" />
     <Compile Include="Models\Identity\UserClaim.cs" />

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNet.Identity;
 using MVC5Start.Models.Definitions;
 
 namespace MVC5Start.Models.Identity
@@ -8,7 +9,7 @@ namespace MVC5Start.Models.Identity
     /// POCO class imitating the Microsoft.AspNet.Identity.EntityFramework.IdentityRole and compatible with Asp.Net Identity 2.0.
     /// Compared to the original IdentityRole, it has an extra property called Description, and timestamps for addition (AddedAtUtc) and modifications (ModifiedAtUtc).
     /// </summary>
-    public class Role : BaseIdAddedAtModifiedAtEntity
+    public class Role : BaseIdAddedAtModifiedAtEntity, IRole<int>
     {
         public Role()
         {

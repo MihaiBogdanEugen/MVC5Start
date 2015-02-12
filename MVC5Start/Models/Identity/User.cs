@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Design;
+using Microsoft.AspNet.Identity;
 using MVC5Start.Models.Definitions;
 
 namespace MVC5Start.Models.Identity
@@ -9,7 +11,7 @@ namespace MVC5Start.Models.Identity
     /// POCO class imitating the Microsoft.AspNet.Identity.EntityFramework.IdentityUser and compatible with Asp.Net Identity 2.0.
     /// Compared to the original IdentityUser, it has the following extra properties: FirstName, LastName, IsDisabled, LastLogInAtUtc and timestamps for addition (AddedAtUtc) and modifications (ModifiedAtUtc).
     /// </summary>
-    public class User : BaseIdAddedAtModifiedAtEntity
+    public class User : BaseIdAddedAtModifiedAtEntity, IUser<int>
     {
         public User()
         {
