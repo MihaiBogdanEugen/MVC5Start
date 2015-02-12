@@ -1,0 +1,13 @@
+﻿CREATE TABLE [dbo].[Roles]
+(
+	[Id] INT IDENTITY(1,1) NOT NULL,
+	[Name] NVARCHAR(100) NOT NULL,
+	[Description] NVARCHAR(1000) NULL,
+	[AddedAtUtc] DATETIME2(7) NOT NULL DEFAULT GETUTCDATE(), 
+    [ModifiedAtUtc] DATETIME2(7) NULL, 
+    CONSTRAINT [PK_Roles] PRIMARY KEY CLUSTERED ([Id] ASC)
+)
+GO
+
+CREATE UNIQUE INDEX [UX_Roles_Name] ON [dbo].[Roles] ([Name])
+GO
