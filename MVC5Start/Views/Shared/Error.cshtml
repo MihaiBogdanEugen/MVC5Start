@@ -1,9 +1,14 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
-
+﻿@model MVC5Start.ViewModels.ErrorViewModel
 @{
-    ViewBag.Title = "Error";
+    this.ViewBag.Title = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<hgroup>
+    <h2 class="text-danger">@ViewBag.Title</h2>
+    <h3 class="text-danger">An error occurred while processing your request!</h3>
+</hgroup>
 
+@if (string.IsNullOrEmpty(this.Model.Message) == false)
+{
+    <h3 class="text-danger">@this.Model.Message</h3>
+}

@@ -1,0 +1,50 @@
+﻿@model MVC5Start.ViewModels.Account.PersonalSettingsViewModel
+@{
+    this.ViewBag.Title = "Personal Settings";
+    var dateFormats = (SelectListItem[])this.ViewBag.DateFormats;
+    var languages = (SelectListItem[])this.ViewBag.Languages;
+    var timeFormats = (SelectListItem[])this.ViewBag.TimeFormats;
+    var timeZones = (SelectListItem[])this.ViewBag.TimeZones;
+}
+<h2>@this.ViewBag.Title</h2>
+@using (Html.BeginForm("ChangePersonalSettings", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateFormat, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.DateFormat, dateFormats, "Choose an option", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DateFormat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.LanguageCode, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.LanguageCode, languages, "Choose an option", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LanguageCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.TimeFormat, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.TimeFormat, timeFormats, "Choose an option", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TimeFormat, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.TimeZoneCode, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.TimeZoneCode, timeZones, "Choose an option", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TimeZoneCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+                @Html.ActionLink("Cancel", "Manage", null, new { @class="btn btn-info" })
+            </div>
+        </div>
+    </div>
+}

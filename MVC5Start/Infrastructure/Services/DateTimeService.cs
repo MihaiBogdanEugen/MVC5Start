@@ -8,5 +8,10 @@ namespace MVC5Start.Infrastructure.Services
         {
             get { return DateTime.UtcNow; }
         }
+
+        public static int CurrentYear
+        {
+            get { return DateTime.UtcNow.Year; }
+        }
     }
 }

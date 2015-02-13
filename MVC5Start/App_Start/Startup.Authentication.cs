@@ -19,13 +19,14 @@ namespace MVC5Start
         {
             Startup.DataProtectionProvider = application.GetDataProtectionProvider();
 
-            application.CreatePerOwinContext(() => DependencyResolver.Current.GetService<ApplicationUserManager>());
+            application.CreatePerOwinContext(() => DependencyResolver.Current.GetService<AppUserManager>());
 
             application.UseCookieAuthentication(new CookieAuthenticationOptions
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Account/Login"),
-                CookieName = "MVC5Start",
+                LoginPath = new PathString("/login"),
+                LogoutPath = new PathString("/logout"),
+                CookieName = "MyDocShelfCookie",
                 Provider = DefaultCookieAuthenticationProvider,
                 //CookieSecure = CookieSecureOption.Always,
                 //CookieHttpOnly = true,
@@ -45,7 +46,7 @@ namespace MVC5Start
                 return new CookieAuthenticationProvider
                 {
                     OnValidateIdentity =
-                        SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, User, int>(
+                        SecurityStampValidator.OnValidateIdentity<AppUserManager, User, int>(
                             validateInterval: TimeSpan.FromMinutes(30),
                             regenerateIdentityCallback: (manager, user) => manager.GenerateUserIdentityAsync(user),
                             getUserIdCallback: (claim) => int.Parse(claim.GetUserId()))

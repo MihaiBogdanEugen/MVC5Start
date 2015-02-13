@@ -72,6 +72,16 @@ namespace MVC5Start.Models.Identity
         public bool TwoFactorEnabled { get; set; }
 
         /// <summary>
+        /// The secret key provided by Google Authenticator
+        /// </summary>
+        public string GoogleAuthenticatorSecretKey { get; set; }
+
+        /// <summary>
+        /// The password hash of the Two Factor authentication process
+        /// </summary>
+        public string TwoFactorAuthPasswordHash { get; set; }
+
+        /// <summary>
         /// The UTC timestamp when the lockout will end.
         /// </summary>
         public DateTime? LockoutEndDateUtc { get; set; }

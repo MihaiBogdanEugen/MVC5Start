@@ -76,7 +76,7 @@ AND RoleId = (SELECT Id FROM Roles WHERE Name = @RoleName)
             public const string GetPasswordHash = "SELECT TOP 1 PasswordHash FROM Users WHERE Id = @UserId";
 
             public const string SetSecurityStamp = "UPDATE Users SET SecurityStamp = @SecurityStamp, ModifiedAtUtc = GETUTCDATE() WHERE Id = @UserId";
-            public const string GetSecurityStamp = "SELECT TOP 1 Users FROM AspNetUsers WHERE Id = @UserId";
+            public const string GetSecurityStamp = "SELECT TOP 1 SecurityStamp FROM Users WHERE Id = @UserId";
 
             public const string SetEmail = "UPDATE Users SET Email = @Email, ModifiedAtUtc = GETUTCDATE() WHERE Id = @UserId";
             public const string GetEmail = "SELECT TOP 1 Email FROM Users WHERE Id = @UserId";
@@ -102,6 +102,23 @@ AND RoleId = (SELECT Id FROM Roles WHERE Name = @RoleName)
             public const string GetAccessFailedCount = "SELECT TOP 1 AccessFailedCount FROM Users WHERE Id = @UserId";
             public const string ResetAccessFailedCount = "UPDATE Users SET AccessFailedCount = 0, ModifiedAtUtc = GETUTCDATE() WHERE Id = @UserId";
             public const string IncrementAccessFailedCount = "UPDATE Users SET AccessFailedCount = (AccessFailedCount + 1), ModifiedAtUtc = GETUTCDATE() WHERE Id = @UserId";
+
+            public const string IsDisabled = @"SELECT TOP 1 IsDisabled FROM Users WHERE Id = @UserId";
+            public const string Disable = @"UPDATE Users SET IsDisabled = 1, ModifiedAtUtc = GETUTCDATE() WHERE Id = @UserId";
+            public const string Enable = @"UPDATE Users SET IsDisabled = 0, ModifiedAtUtc = GETUTCDATE() WHERE Id = @UserId";
+
+            public const string RecordLastLoginAt = @"UPDATE Users SET LastLogInAtUtc = GETUTCDATE(), ModifiedAtUtc = GETUTCDATE() WHERE Id = @UserId";
+
+            public const string FindIdByEmail = @"SELECT TOP 1 Id FROM Users WHERE Email = @Email";
+            public const string GetPersonalInfoById = @"SELECT TOP 1 FirstName, LastName, PhoneNumber, Email, TwoFactorEnabled FROM Users WHERE Id=@Id";
+            public const string SavePersonalInfo = "UPDATE Users SET FirstName = @FirstName, LastName = @LastName, PhoneNumber = @PhoneNumber WHERE Id = @Id";
+            public const string DisableTwoFactorAuthSettings = "UPDATE Users SET TwoFactorenabled = 0, TwoFactorAuthPasswordHash = NULL WHERE Id = @Id";
+            public const string GetTwoFactorAuthPasswordHash = "SELECT TOP 1 TwoFactorAuthPasswordHash FROM Users WHERE Id=@Id";
+            public const string GetPersonalSettings = "SELECT TOP 1 DateFormat, LanguageCode, TimeFormat, TimeZoneCode FROM Users WHERE Id=@Id";
+            public const string SavePersonalSettings = "UPDATE Users SET DateFormat = @DateFormat, LanguageCode = @LanguageCode, TimeFormat = @TimeFormat, TimeZoneCode = @TimeZoneCode WHERE Id = @Id";
+
+            public const string GetEmailInfoById = "SELECT TOP 1 Id, FirstName, LastName, Email FROM Users WHERE Id = @UserId";
+            public const string GetEmailInfoByEmail = "SELECT TOP 1 Id, FirstName, LastName, Email, EmailConfirmed FROM Users WHERE Email = @Email";
 
             public const string FindById = @"
 SELECT TOP 1
@@ -257,9 +274,7 @@ ModifiedAtUtc = GETUTCDATE()
 WHERE Id = @Id
 ";
 
-            public const string Delete = @"
-DELETE FROM Users WHERE Id = @Id
-";
+            public const string Delete = @"DELETE FROM Users WHERE Id = @Id";
 
             public const string SelectByLogin = @"
 SELECT TOP 1

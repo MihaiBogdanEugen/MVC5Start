@@ -1,0 +1,18 @@
+﻿@model MVC5Start.Models.Emails.RegisterEmail
+Content-Type: text/html; charset=utf-8
+
+<html>
+<head>
+    <title>@Model.Subject</title>
+</head>
+<body>
+    <h2>Hi @Model.FullName,</h2>
+    <br />
+    <p>In order to use the MyDocShelf application, please verify your account first by clicking <a href="@Model.CallbackUrl">here</a>.</p>
+    <br />
+    <p>Thanks,</p>
+    <p>MyDocShelf</p>
+    <br />
+    <footer>This is an automated message. Please do not reply!</footer>
+</body>
+</html>

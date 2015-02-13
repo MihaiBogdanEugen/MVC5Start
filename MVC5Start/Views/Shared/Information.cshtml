@@ -1,0 +1,18 @@
+﻿@model MVC5Start.ViewModels.InformationViewModel
+@{
+    this.ViewBag.Title = this.Model.Title;
+}
+
+<hgroup>
+    <h2>@ViewBag.Title</h2>
+    <h3>@this.Model.Message</h3>
+</hgroup>
+
+@if (string.IsNullOrEmpty(this.Model.CallbackUrl) == false)
+{
+    <p>CallbackUrl: <a href="@this.Model.CallbackUrl">click here</a>!</p>
+}
+else if (string.IsNullOrEmpty(this.Model.LoginUrl) == false)
+{
+    <p>Click <a href="@this.Model.LoginUrl">here</a> to login!</p>
+}

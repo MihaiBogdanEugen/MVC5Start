@@ -1,7 +1,0 @@
-namespace MVC5Start.ViewModels.Manage
-{
-    public class FactorViewModel
-    {
-        public string Purpose { get; set; }
-    }
-}
