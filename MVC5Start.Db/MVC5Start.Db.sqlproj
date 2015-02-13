@@ -61,10 +61,12 @@
     <Folder Include="Tables" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Scripts\Roles.sql" />
-    <Build Include="Scripts\Users.sql" />
-    <Build Include="Scripts\UserRoles.sql" />
-    <Build Include="Scripts\UserClaims.sql" />
-    <Build Include="Scripts\UserLogins.sql" />
+    <Build Include="Tables\Roles.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\UserClaims.sql" />
+    <Build Include="Tables\UserLogins.sql" />
+    <Build Include="Tables\UserRoles.sql" />
+    <Build Include="Tables\Users.sql" />
   </ItemGroup>
 </Project>

@@ -11,6 +11,8 @@
 	[PhoneNumber] NVARCHAR(100) NULL,
 	[PhoneNumberConfirmed] BIT NOT NULL DEFAULT 0,
 	[TwoFactorEnabled] BIT NOT NULL DEFAULT 0,
+    [GoogleAuthenticatorSecretKey] NVARCHAR(MAX) NULL, 
+    [TwoFactorAuthPasswordHash] NVARCHAR(MAX) NULL, 
 	[LockoutEndDateUtc] DATETIME2(7) NULL,
 	[LockoutEnabled] BIT NOT NULL DEFAULT 0,
 	[AccessFailedCount] INT NOT NULL DEFAULT 0,
