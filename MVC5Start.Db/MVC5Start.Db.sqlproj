@@ -69,4 +69,7 @@
     <Build Include="Tables\UserRoles.sql" />
     <Build Include="Tables\Users.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\InsertIdentityData.sql" />
+  </ItemGroup>
 </Project>
