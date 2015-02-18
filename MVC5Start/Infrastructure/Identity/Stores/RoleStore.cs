@@ -7,11 +7,11 @@ using MVC5Start.Models.Identity;
 
 namespace MVC5Start.Infrastructure.Identity.Stores
 {
-    public sealed class AppRoleStore : BaseStore, IQueryableRoleStore<Role, int>
+    public sealed class RoleStore : BaseStore, IQueryableRoleStore<Role, int>
     {
         #region Constructors
 
-        public AppRoleStore(DbConnectionInfo dbConnectionInfo) : base(dbConnectionInfo) { }
+        public RoleStore(DbConnectionInfo dbConnectionInfo) : base(dbConnectionInfo) { }
 
         #endregion Constructors
 

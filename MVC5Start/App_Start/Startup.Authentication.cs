@@ -19,7 +19,7 @@ namespace MVC5Start
         {
             Startup.DataProtectionProvider = application.GetDataProtectionProvider();
 
-            application.CreatePerOwinContext(() => DependencyResolver.Current.GetService<AppUserManager>());
+            application.CreatePerOwinContext(() => DependencyResolver.Current.GetService<UserManager>());
 
             application.UseCookieAuthentication(new CookieAuthenticationOptions
             {
@@ -46,7 +46,7 @@ namespace MVC5Start
                 return new CookieAuthenticationProvider
                 {
                     OnValidateIdentity =
-                        SecurityStampValidator.OnValidateIdentity<AppUserManager, User, int>(
+                        SecurityStampValidator.OnValidateIdentity<UserManager, User, int>(
                             validateInterval: TimeSpan.FromMinutes(30),
                             regenerateIdentityCallback: (manager, user) => manager.GenerateUserIdentityAsync(user),
                             getUserIdCallback: (claim) => int.Parse(claim.GetUserId()))

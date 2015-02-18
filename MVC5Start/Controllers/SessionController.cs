@@ -11,7 +11,7 @@ namespace MVC5Start.Controllers
     {
         #region Constructors
 
-        public SessionController(AppSignInManager signInManager, AppUserManager userManager) 
+        public SessionController(SignInManager signInManager, UserManager userManager) 
             : base(signInManager, userManager) { }
 
         #endregion Constructors

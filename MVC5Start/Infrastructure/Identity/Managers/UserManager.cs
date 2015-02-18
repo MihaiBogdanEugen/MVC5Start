@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Net.Mail;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.AspNet.Identity;
@@ -14,11 +17,11 @@ using MVC5Start.ViewModels.Queries;
 
 namespace MVC5Start.Infrastructure.Identity.Managers
 {
-    public sealed class AppUserManager : UserManager<User, int>
+    public sealed class UserManager : UserManager<User, int>
     {
         #region Constructors
 
-        public AppUserManager(DbConnectionInfo dbConnectionInfo, IIdentityMessageService emailService, IDataProtectionProvider dataProtectionProvider) : base(new AppUserStore(dbConnectionInfo))
+        public UserManager(DbConnectionInfo dbConnectionInfo, IIdentityMessageService emailService, IDataProtectionProvider dataProtectionProvider) : base(new UserStore(dbConnectionInfo))
         {
             #region User Configuration
 
@@ -62,17 +65,67 @@ namespace MVC5Start.Infrastructure.Identity.Managers
             }
         }
 
+        #endregion Constructors
+
+        #region Overriden Members
+
         public async Task<IdentityResult> CreateAsync(User user, string password, params string[] roles)
         {
-            var result = await base.CreateAsync(user, password);
-            
-            if (result.Succeeded)
-                return await base.AddToRolesAsync(user.Id, roles);
+            var result = await this.CreateAsync(user, password);
+            if (result.Succeeded == false)
+                return result;
 
-            return result;
+            return await base.AddToRolesAsync(user.Id, roles);
         }
 
-        #endregion Constructors
+        public new async Task<IdentityResult> CreateAsync(User user, string password)
+        {   
+            if (user == null)
+                throw new ArgumentNullException("user");
+            
+            if (string.IsNullOrEmpty(password))
+                throw new ArgumentNullException("password");
+
+            var passwordStore = this.GetPasswordStore();
+
+            var result = await base.PasswordValidator.ValidateAsync(password);
+            if (result.Succeeded == false)
+                return result;
+
+            var hashedPassword = this.PasswordHasher.HashPassword(password);
+
+            await passwordStore.SetPasswordHashAsync(user, hashedPassword);
+
+            if (this.SupportsUserSecurityStamp)
+                await this.GetSecurityStore().SetSecurityStampAsync(user, Guid.NewGuid().ToString());
+
+            var validationResult = user.IsValid();
+            if (validationResult.Succeeded == false)
+                return validationResult.IdentityResult;
+
+            if (this.UserLockoutEnabledByDefault && this.SupportsUserLockout)
+                await this.GetUserLockoutStore().SetLockoutEnabledAsync(user, true);
+                
+            await this.Store.CreateAsync(user);
+                
+            return IdentityResult.Success;   
+        }
+
+        public override async Task<IdentityResult> UpdateAsync(User user)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user");
+
+            var result = user.IsValid();
+            if (result.Succeeded == false)
+                return result.IdentityResult;
+
+            await Store.UpdateAsync(user);
+
+            return IdentityResult.Success;
+        }
+
+        #endregion Overriden Members
 
         #region Notification Members
 
@@ -121,7 +174,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
 
         public async Task RecordLastLoginAtAsync(User user)
         {
-            var applicationUserStore = this.Store as AppUserStore;
+            var applicationUserStore = this.Store as UserStore;
             if (applicationUserStore == null)
                 return;
 
@@ -130,7 +183,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
 
         public async Task<bool> IsDisabledAsync(int userId)
         {
-            var applicationUserStore = this.Store as AppUserStore;
+            var applicationUserStore = this.Store as UserStore;
             if (applicationUserStore == null)
                 return false;
 
@@ -142,7 +195,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
             if (string.IsNullOrEmpty(email))
                 return 0;
 
-            var applicationUserStore = this.Store as AppUserStore;
+            var applicationUserStore = this.Store as UserStore;
             if (applicationUserStore == null)
                 return 0;
 
@@ -154,7 +207,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
             if (string.IsNullOrEmpty(email))
                 return null;
 
-            var applicationUserStore = this.Store as AppUserStore;
+            var applicationUserStore = this.Store as UserStore;
             if (applicationUserStore == null)
                 return null;
 
@@ -163,7 +216,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
 
         public async Task<PersonalInfoViewModel> GetUserPersonalInfoAsync(int userId)
         {
-            var applicationUserStore = this.Store as AppUserStore;
+            var applicationUserStore = this.Store as UserStore;
             if (applicationUserStore == null)
                 return null;
 
@@ -172,7 +225,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
         
         public async Task<bool> SaveProfileInfoAsync(PersonalInfoViewModel model, int userId)
         {
-            var applicationUserStore = this.Store as AppUserStore;
+            var applicationUserStore = this.Store as UserStore;
             if (applicationUserStore == null)
                 return false;
 
@@ -181,7 +234,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
 
         public async Task<bool> DisableTwoFactorAuthentication(string code, int userId)
         {
-            var applicationUserStore = this.Store as AppUserStore;
+            var applicationUserStore = this.Store as UserStore;
             if (applicationUserStore == null)
                 return false;
 
@@ -196,7 +249,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
 
         public async Task<PersonalSettingsViewModel> GetUserPersonalSettingsAsync(int userId)
         {
-            var applicationUserStore = this.Store as AppUserStore;
+            var applicationUserStore = this.Store as UserStore;
             if (applicationUserStore == null)
                 return null;
 
@@ -205,7 +258,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
 
         public async Task<bool> SavePersonalSettingsAsync(PersonalSettingsViewModel model, int userId)
         {
-            var applicationUserStore = this.Store as AppUserStore;
+            var applicationUserStore = this.Store as UserStore;
             if (applicationUserStore == null)
                 return false;
 
@@ -213,5 +266,33 @@ namespace MVC5Start.Infrastructure.Identity.Managers
         }
 
         #endregion Public Members
+
+        #region Private Members
+
+        private IUserPasswordStore<User, int> GetPasswordStore()
+        {
+            var userPasswordStore = this.Store as IUserPasswordStore<User, int>;
+            if (userPasswordStore == null)
+                throw new NotSupportedException("Store does not implement IUserPasswordStore");
+            return userPasswordStore;
+        }
+
+        private IUserSecurityStampStore<User, int> GetSecurityStore()
+        {
+            var securityStampStore = this.Store as IUserSecurityStampStore<User, int>;
+            if (securityStampStore == null)
+                throw new NotSupportedException("Store does not implement IUserSecurityStampStore");
+            return securityStampStore;
+        }
+        
+        private IUserLockoutStore<User, int> GetUserLockoutStore()
+        {
+            var userLockoutStore = this.Store as IUserLockoutStore<User, int>;
+            if (userLockoutStore == null)
+                throw new NotSupportedException("Store does not implement IUserLockoutStore");
+            return userLockoutStore;
+        }
+
+        #endregion Private Members
     }
 }

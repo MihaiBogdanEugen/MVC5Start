@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Web.UI;
 using Microsoft.AspNet.Identity;
 using MVC5Start.Models.Definitions;
+using MVC5Start.Models.Validation;
 
 namespace MVC5Start.Models.Identity
 {
@@ -30,5 +32,16 @@ namespace MVC5Start.Models.Identity
         /// The UserRoles associated with this Role.
         /// </summary>
         public virtual ICollection<UserRole> Users { get; private set; }
+
+        public override ValidationResult IsValid()
+        {
+            if (this.Name.IsValid(100) == false)
+                return ValidationResult.Failed("The 'Name' value cannot be empty nor bigger than 100 chars!");
+
+            if (this.Description.IsValid(1000, allowEmpty: true) == false)
+                return ValidationResult.Failed("The 'Description' value cannot be bigger than 1000 chars!");
+
+            return ValidationResult.Success;
+        }
     }
 }

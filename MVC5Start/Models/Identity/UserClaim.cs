@@ -1,4 +1,5 @@
 ﻿using MVC5Start.Models.Definitions;
+using MVC5Start.Models.Validation;
 
 namespace MVC5Start.Models.Identity
 {
@@ -22,6 +23,11 @@ namespace MVC5Start.Models.Identity
         /// <summary>
         /// The claim value.
         /// </summary>
-        public string ClaimValue { get; set; } 
+        public string ClaimValue { get; set; }
+
+        public override ValidationResult IsValid()
+        {
+            return ValidationResult.Success;
+        }
     }
 }

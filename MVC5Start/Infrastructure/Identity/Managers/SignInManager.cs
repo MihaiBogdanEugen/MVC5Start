@@ -3,17 +3,16 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using MVC5Start.Models.Identity;
 
 namespace MVC5Start.Infrastructure.Identity.Managers
 {
-    public sealed class AppSignInManager : SignInManager<User, int>, IEnhancedSignIn
+    public sealed class SignInManager : SignInManager<User, int>, IEnhancedSignIn
     {
         #region Constructors
 
-        public AppSignInManager(UserManager<User, int> userManager, IAuthenticationManager authenticationManager) : base(userManager, authenticationManager) { }
+        public SignInManager(UserManager<User, int> userManager, IAuthenticationManager authenticationManager) : base(userManager, authenticationManager) { }
 
         #endregion Constructors
 
@@ -38,7 +37,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
                 this.AuthenticationManager.SignIn(new AuthenticationProperties {IsPersistent = isPersistent}, identity);
             }
 
-            var applicationUserManager = this.UserManager as AppUserManager;
+            var applicationUserManager = this.UserManager as UserManager;
             if (applicationUserManager == null)
                 return;
 
@@ -51,7 +50,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
 
         public async Task<EnhancedSignInStatus> EnhancedPasswordSignInAsync(string email, string password, bool isPersistent, bool shouldLockout = true)
         {
-            var applicationUserManager = this.UserManager as AppUserManager;
+            var applicationUserManager = this.UserManager as UserManager;
             if (applicationUserManager == null)
                 return EnhancedSignInStatus.Failure;
 
@@ -98,7 +97,7 @@ namespace MVC5Start.Infrastructure.Identity.Managers
 
         public async Task<EnhancedSignInStatus> EnhancedTwoFactorSignInAsync(string provider, string code, bool isPersistent, bool rememberBrowser)
         {
-            var applicationUserManager = this.UserManager as AppUserManager;
+            var applicationUserManager = this.UserManager as UserManager;
             if (applicationUserManager == null)
                 return EnhancedSignInStatus.Failure;
 

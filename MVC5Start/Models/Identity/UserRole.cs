@@ -1,4 +1,5 @@
 ﻿using MVC5Start.Models.Definitions;
+using MVC5Start.Models.Validation;
 
 namespace MVC5Start.Models.Identity
 {
@@ -18,5 +19,10 @@ namespace MVC5Start.Models.Identity
         /// The Id of the Role of this UserRole.
         /// </summary>
         public int RoleId { get; set; }
+
+        public override ValidationResult IsValid()
+        {
+            return ValidationResult.Success;
+        }
     }
 }

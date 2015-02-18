@@ -1,4 +1,5 @@
 ﻿using MVC5Start.Models.Definitions;
+using MVC5Start.Models.Validation;
 
 namespace MVC5Start.Models.Identity
 {
@@ -23,5 +24,10 @@ namespace MVC5Start.Models.Identity
         /// The key of the provider of this login.
         /// </summary>
         public string ProviderKey { get; set; }
+
+        public override ValidationResult IsValid()
+        {
+            return ValidationResult.Success;
+        }
     }
 }

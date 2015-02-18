@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web.Management;
 using Dapper;
 using Microsoft.AspNet.Identity;
-using MVC5Start.Infrastructure.Services;
 using MVC5Start.Models.Identity;
 using MVC5Start.ViewModels.Account;
 using MVC5Start.ViewModels.Queries;
 
 namespace MVC5Start.Infrastructure.Identity.Stores
 {
-    public sealed class AppUserStore : BaseStore, 
+    public sealed class UserStore : BaseStore, 
         IUserLoginStore<User, int>, 
         IUserClaimStore<User, int>, 
         IUserRoleStore<User, int>, 
@@ -30,7 +27,7 @@ namespace MVC5Start.Infrastructure.Identity.Stores
     {
         #region Constructors
 
-        public AppUserStore(DbConnectionInfo dbConnectionInfo) : base(dbConnectionInfo) { }
+        public UserStore(DbConnectionInfo dbConnectionInfo) : base(dbConnectionInfo) { }
 
         #endregion Constructors
 

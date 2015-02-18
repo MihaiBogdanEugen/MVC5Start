@@ -24,7 +24,7 @@ namespace MVC5Start.Controllers
     {
         #region Constructors
 
-        public AccountController(AppSignInManager signInManager, AppUserManager userManager) 
+        public AccountController(SignInManager signInManager, UserManager userManager) 
             : base(signInManager, userManager) { }
 
         #endregion Constructors

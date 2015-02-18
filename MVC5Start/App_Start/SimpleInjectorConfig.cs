@@ -25,11 +25,11 @@ namespace MVC5Start
 
             container.RegisterPerWebRequest<DbConnectionInfo, DbConnectionInfo>();
             container.RegisterPerWebRequest<IIdentityMessageService, AppEmailService>();
-            container.RegisterPerWebRequest<IUserStore<User, int>, AppUserStore>();
-            container.RegisterPerWebRequest<UserManager<User, int>, AppUserManager>();
-            container.RegisterPerWebRequest<IRoleStore<Role, int>, AppRoleStore>();
-            container.RegisterPerWebRequest<RoleManager<Role, int>, AppRoleManager>();
-            container.RegisterPerWebRequest<SignInManager<User, int>, AppSignInManager>();
+            container.RegisterPerWebRequest<IUserStore<User, int>, UserStore>();
+            container.RegisterPerWebRequest<UserManager<User, int>, UserManager>();
+            container.RegisterPerWebRequest<IRoleStore<Role, int>, RoleStore>();
+            container.RegisterPerWebRequest<RoleManager<Role, int>, RoleManager>();
+            container.RegisterPerWebRequest<SignInManager<User, int>, SignInManager>();
 
             container.RegisterPerWebRequest(() => HttpContext.Current.GetOwinContext().Authentication);
 

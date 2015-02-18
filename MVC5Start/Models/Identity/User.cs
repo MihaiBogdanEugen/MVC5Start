@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing.Design;
 using Microsoft.AspNet.Identity;
 using MVC5Start.Models.Definitions;
+using MVC5Start.Models.Validation;
 
 namespace MVC5Start.Models.Identity
 {
@@ -120,5 +120,31 @@ namespace MVC5Start.Models.Identity
         /// The list of logins of the current user.
         /// </summary>
         public virtual ICollection<UserLogin> Logins { get; private set; }
+
+        public override ValidationResult IsValid()
+        {
+            if (this.FirstName.IsValid(100) == false)
+                return ValidationResult.Failed("The 'FirstName' value cannot be empty nor bigger than 100 chars!");
+
+            if (this.LastName.IsValid(100) == false)
+                return ValidationResult.Failed("The 'LastName' value cannot be empty nor bigger than 100 chars!");
+
+            if (this.UserName.IsValid(100) == false)
+                return ValidationResult.Failed("The 'UserName' value cannot be empty nor bigger than 100 chars!");
+
+            if (string.IsNullOrEmpty(this.PasswordHash))
+                return ValidationResult.Failed("The 'PasswordHash' value cannot be empty!");
+
+            if (string.IsNullOrEmpty(this.SecurityStamp))
+                return ValidationResult.Failed("The 'SecurityStamp' value cannot be empty!");
+
+            if (this.Email.IsValid(100) == false)
+                return ValidationResult.Failed("The 'Email' value cannot be empty nor bigger than 100 chars!");
+
+            if (this.PhoneNumber.IsValid(100, allowEmpty: true) == false)
+                return ValidationResult.Failed("The 'PhoneNumber' value cannot be bigger than 100 chars!");
+
+            return ValidationResult.Success;
+        }
     }
 }

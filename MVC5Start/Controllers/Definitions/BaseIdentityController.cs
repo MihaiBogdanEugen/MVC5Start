@@ -8,7 +8,7 @@ namespace MVC5Start.Controllers.Definitions
 {
     public abstract class BaseIdentityController : BaseController
     {
-        protected BaseIdentityController(AppSignInManager signInManager, AppUserManager userManager)
+        protected BaseIdentityController(SignInManager signInManager, UserManager userManager)
         {
             if (signInManager == null)
                 throw new ArgumentNullException("signInManager");
@@ -20,9 +20,9 @@ namespace MVC5Start.Controllers.Definitions
             this.UserManager = userManager;
         }
 
-        protected AppSignInManager SignInManager { get; private set; }
+        protected SignInManager SignInManager { get; private set; }
 
-        protected AppUserManager UserManager { get; private set; }
+        protected UserManager UserManager { get; private set; }
 
         protected IAuthenticationManager AuthenticationManager
         {
