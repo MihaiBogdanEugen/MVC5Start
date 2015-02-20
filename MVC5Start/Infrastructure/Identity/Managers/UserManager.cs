@@ -14,7 +14,7 @@ using MVC5Start.ViewModels.Queries;
 
 namespace MVC5Start.Infrastructure.Identity.Managers
 {
-    public sealed class UserManager : UserManager<User, int>
+    public sealed class UserManager : UserManager<User, int>, IUserManager
     {
         #region Constructors
 

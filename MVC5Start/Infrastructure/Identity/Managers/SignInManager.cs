@@ -8,7 +8,7 @@ using MVC5Start.Models.Identity;
 
 namespace MVC5Start.Infrastructure.Identity.Managers
 {
-    public sealed class SignInManager : SignInManager<User, int>, IEnhancedSignIn
+    public sealed class SignInManager : SignInManager<User, int>, ISignInManager
     {
         #region Constructors
 

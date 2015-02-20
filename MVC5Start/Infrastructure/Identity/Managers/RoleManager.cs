@@ -6,7 +6,7 @@ using MVC5Start.Models.Identity;
 
 namespace MVC5Start.Infrastructure.Identity.Managers
 {
-    public class RoleManager : RoleManager<Role, int>
+    public class RoleManager : RoleManager<Role, int>, IRoleManager
     {
         #region Constructors
 

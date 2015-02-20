@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Configuration;
 using System.Web;
-using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using MVC5Start.Infrastructure;
 using MVC5Start.Infrastructure.Hangfire;
+using MVC5Start.Infrastructure.SimpleInjector;
 using StackExchange.Exceptional;
 using StackExchange.Profiling;
 

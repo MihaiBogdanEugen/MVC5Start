@@ -194,7 +194,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\SimpleInjectorConfig.cs" />
     <Compile Include="App_Start\Startup.Authentication.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Definitions\BaseController.cs" />
@@ -215,16 +214,20 @@
     <Compile Include="Infrastructure\Identity\EnhancedAuthorizeAttribute.cs" />
     <Compile Include="Infrastructure\Identity\IdentityExtensions.cs" />
     <Compile Include="Infrastructure\Identity\AdaptivePasswordHasher.cs" />
+    <Compile Include="Infrastructure\Identity\Managers\IRoleManager.cs" />
+    <Compile Include="Infrastructure\Identity\Managers\ISignInManager.cs" />
+    <Compile Include="Infrastructure\Identity\Managers\IUserManager.cs" />
     <Compile Include="Infrastructure\Identity\Managers\RoleManager.cs" />
     <Compile Include="Infrastructure\Identity\EnhancedSignInStatus.cs" />
     <Compile Include="Infrastructure\Identity\GoogleAuthenticatorTokenProvider.cs" />
-    <Compile Include="Infrastructure\Identity\IEnhancedSignIn.cs" />
     <Compile Include="Infrastructure\Identity\Stores\RoleStore.cs" />
     <Compile Include="Infrastructure\Identity\Stores\UserStore.cs" />
     <Compile Include="Infrastructure\Identity\Stores\IUserDisabledStore.cs" />
     <Compile Include="Infrastructure\Identity\Stores\IUserLastLoginStore.cs" />
     <Compile Include="Infrastructure\Services\ConfigurationService.cs" />
     <Compile Include="Infrastructure\Services\DateTimeService.cs" />
+    <Compile Include="Infrastructure\SimpleInjector\SimpleInjectorConfig.cs" />
+    <Compile Include="Infrastructure\SimpleInjector\SimpleInjectorJobActivator.cs" />
     <Compile Include="Infrastructure\Sql.cs" />
     <Compile Include="Infrastructure\Identity\Managers\SignInManager.cs" />
     <Compile Include="Infrastructure\Identity\Managers\UserManager.cs" />
@@ -288,6 +291,7 @@
     <Content Include="Pages\500.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\errors.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
     <Content Include="Scripts\jquery-2.1.3.min.map" />
