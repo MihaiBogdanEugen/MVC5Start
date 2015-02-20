@@ -18,13 +18,10 @@ namespace MVC5Start
 
             application.UseHangfire(configuration =>
             {
-                configuration.UseAuthorizationFilters(new AuthorizationFilter
-                {
-                    Roles = Constants.DefaultAdministratorRoleName
-                });
-
+                configuration.UseAuthorizationFilters(new AuthorizationFilter { Roles = Constants.DefaultAdministratorRoleName });
                 configuration.UseSqlServerStorage(Constants.DefaultConnection);
                 configuration.UseServer();
+
                 GlobalJobFilters.Filters.Add(new LogHangfireFailureAttribute());
             });
         }
