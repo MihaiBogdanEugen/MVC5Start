@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using MVC5Start.Infrastructure;
 using MVC5Start.ViewModels;
 using Constants = MVC5Start.Infrastructure.Constants;
 

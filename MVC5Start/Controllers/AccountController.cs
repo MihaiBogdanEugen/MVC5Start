@@ -12,7 +12,6 @@ using MVC5Start.Infrastructure.Services;
 using MVC5Start.Models.Identity;
 using MVC5Start.ViewModels;
 using MVC5Start.ViewModels.Account;
-using MVC5Start.ViewModels.Session;
 using Newtonsoft.Json;
 using OtpSharp;
 using Constants = MVC5Start.Infrastructure.Constants;
