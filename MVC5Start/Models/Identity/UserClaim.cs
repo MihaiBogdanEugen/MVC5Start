@@ -1,5 +1,5 @@
-﻿using MVC5Start.Models.Definitions;
-using MVC5Start.Models.Validation;
+﻿using MVC5Start.Infrastructure.Validation;
+using MVC5Start.Models.Definitions;
 
 namespace MVC5Start.Models.Identity
 {

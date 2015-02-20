@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
 using Base32;
 using Microsoft.AspNet.Identity;
 using MVC5Start.Models.Identity;
 using OtpSharp;
 
-namespace MVC5Start.Infrastructure.Identity.Managers
+namespace MVC5Start.Infrastructure.Identity
 {
     public sealed class GoogleAuthenticatorTokenProvider : IUserTokenProvider<User, int>
     {

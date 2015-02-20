@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using Microsoft.AspNet.Identity;
 
-namespace MVC5Start.Infrastructure.Identity.Managers
+namespace MVC5Start.Infrastructure.Identity
 {
     public class AdaptivePasswordHasher : IPasswordHasher
     {

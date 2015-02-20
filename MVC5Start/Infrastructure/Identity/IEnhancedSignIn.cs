@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace MVC5Start.Infrastructure.Identity.Managers
+namespace MVC5Start.Infrastructure.Identity
 {
     public interface IEnhancedSignIn
     {

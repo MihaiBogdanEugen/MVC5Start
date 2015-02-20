@@ -1,7 +1,4 @@
-﻿
-using MVC5Start.Models.Definitions;
-
-namespace MVC5Start.Models.Validation
+﻿namespace MVC5Start.Infrastructure.Validation
 {
     public interface IValidate
     {

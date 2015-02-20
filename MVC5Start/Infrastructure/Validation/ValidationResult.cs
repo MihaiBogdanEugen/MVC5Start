@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.AspNet.Identity;
 
-namespace MVC5Start.Models.Validation
+namespace MVC5Start.Infrastructure.Validation
 {
     /// <summary>
     ///     Represents the result of a validation operation

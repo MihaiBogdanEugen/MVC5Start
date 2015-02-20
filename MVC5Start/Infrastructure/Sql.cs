@@ -100,7 +100,7 @@ AND RoleId = (SELECT Id FROM Roles WHERE Name = @RoleName)
             public const string GetLockoutEndDateUtc = "SELECT TOP 1 LockoutEndDateUtc FROM Users WHERE Id = @UserId";
 
             public const string GetAccessFailedCount = "SELECT TOP 1 AccessFailedCount FROM Users WHERE Id = @UserId";
-            public const string ResetAccessFailedCount = "UPDATE Users SET AccessFailedCount = 0, ModifiedAtUtc = GETUTCDATE() WHERE Id = @UserId";
+            public const string ResetAccessFailedCount = "UPDATE Users SET AccessFailedCount = 0, ModifiedAtUtc = GETUTCDATE() WHERE Id = @Id";
             public const string IncrementAccessFailedCount = "UPDATE Users SET AccessFailedCount = (AccessFailedCount + 1), ModifiedAtUtc = GETUTCDATE() WHERE Id = @UserId";
 
             public const string IsDisabled = @"SELECT TOP 1 IsDisabled FROM Users WHERE Id = @UserId";

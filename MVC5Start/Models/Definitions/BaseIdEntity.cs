@@ -1,4 +1,4 @@
-﻿using MVC5Start.Models.Validation;
+﻿using MVC5Start.Infrastructure.Validation;
 
 namespace MVC5Start.Models.Definitions
 {

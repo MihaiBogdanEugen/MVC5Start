@@ -10,7 +10,7 @@ GO
 SET IDENTITY_INSERT [dbo].[Users] ON 
 
 GO
-INSERT [dbo].[Users] ([Id], [FirstName], [LastName], [UserName], [PasswordHash], [SecurityStamp], [Email], [EmailConfirmed], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [GoogleAuthenticatorSecretKey], [TwoFactorAuthPasswordHash], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [LastLoginAtUtc], [IsDisabled], [AddedAtUtc], [ModifiedAtUtc]) VALUES (1, N'Bogdan', N'Mihai', N'mbe1224@gmail.com', N'ANcpbhlcgyKGIEIOuPYJcy7/8ndS20jxGeZ6l7Hw6CprueeEDZLtjUw07ZZaHt4faQ==', N'36a908f9-27e2-4f18-aef1-12e0d458e3db', N'mbe1224@gmai.com', 1, N'0721601985', 1, 0, NULL, NULL, NULL, 1, 0, NULL, 0, CAST(N'2015-02-17 08:51:10.1900000' AS DateTime2), NULL)
+INSERT [dbo].[Users] ([Id], [FirstName], [LastName], [UserName], [PasswordHash], [SecurityStamp], [Email], [EmailConfirmed], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [GoogleAuthenticatorSecretKey], [TwoFactorAuthPasswordHash], [LockoutEndDateUtc], [LockoutEnabled], [AccessFailedCount], [LastLoginAtUtc], [IsDisabled], [AddedAtUtc], [ModifiedAtUtc]) VALUES (1, N'Bogdan', N'Mihai', N'mbe1224@gmail.com', N'1F400.AA1GzkYcRcAoMMFWSV/kKsz8cdVs+gG80z7lXzoh22T+CXfH+bh8Ha667OSpl+Prbw==', N'aaa1fe58-b391-4012-bade-fedeafc9156d', N'mbe1224@gmail.com', 1, N'0721601985', 1, 0, NULL, NULL, NULL, 1, 0, NULL, 0, CAST(N'2015-02-17 08:51:10.1900000' AS DateTime2), NULL)
 GO
 SET IDENTITY_INSERT [dbo].[Users] OFF
 GO
@@ -21,3 +21,5 @@ INSERT [dbo].[UserRoles] ([Id], [UserId], [RoleId], [AddedAtUtc]) VALUES (1, 1, 
 GO
 SET IDENTITY_INSERT [dbo].[UserRoles] OFF
 GO
+	
+	

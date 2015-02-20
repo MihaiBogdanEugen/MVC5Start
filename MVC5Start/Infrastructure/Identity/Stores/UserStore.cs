@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using Dapper;
 using Microsoft.AspNet.Identity;
 using MVC5Start.Models.Identity;
@@ -38,7 +39,7 @@ namespace MVC5Start.Infrastructure.Identity.Stores
             if (user == null)
                 throw new ArgumentNullException("user");
 
-            await this.Connection.ExecuteAsync(Sql.Users.Insert, new
+            var userId = await this.Connection.ExecuteScalarAsync<int>(Sql.Users.Insert + "; " + Sql.SelectScopeIdentity, new
             {
                 user.FirstName,
                 user.LastName,
@@ -56,6 +57,8 @@ namespace MVC5Start.Infrastructure.Identity.Stores
                 user.LastLogInAtUtc,
                 user.IsDisabled,
             });
+
+            user.Id = userId;
         }
 
         public async Task UpdateAsync(User user)
@@ -264,6 +267,8 @@ namespace MVC5Start.Infrastructure.Identity.Stores
                 throw new ArgumentNullException("passwordHash");
 
             await this.Connection.ExecuteAsync(Sql.Users.SetPasswordHash, new { UserId = user.Id, PasswordHash = passwordHash });
+
+            user.PasswordHash = passwordHash;
         }
 
         public async Task<string> GetPasswordHashAsync(User user)
@@ -288,15 +293,17 @@ namespace MVC5Start.Infrastructure.Identity.Stores
 
         #region IUserSecurityStampStore Members
 
-        public async Task SetSecurityStampAsync(User user, string stamp)
+        public async Task SetSecurityStampAsync(User user, string securityStamp)
         {
             if (user == null)
                 throw new ArgumentNullException("user");
 
-            if (string.IsNullOrEmpty(stamp))
-                throw new ArgumentNullException("stamp");
+            if (string.IsNullOrEmpty(securityStamp))
+                throw new ArgumentNullException("securityStamp");
 
-            await this.Connection.ExecuteAsync(Sql.Users.SetSecurityStamp, new { UserId = user.Id, SecurityStamp = stamp });
+            await this.Connection.ExecuteAsync(Sql.Users.SetSecurityStamp, new { UserId = user.Id, SecurityStamp = securityStamp });
+
+            user.SecurityStamp = securityStamp;
         }
 
         public async Task<string> GetSecurityStampAsync(User user)
@@ -332,6 +339,8 @@ namespace MVC5Start.Infrastructure.Identity.Stores
                 throw new ArgumentNullException("email");
 
             await this.Connection.ExecuteAsync(Sql.Users.SetEmail, new { UserId = user.Id, Email = email });
+
+            user.Email = email;
         }
 
         public async Task<string> GetEmailAsync(User user)
@@ -350,12 +359,14 @@ namespace MVC5Start.Infrastructure.Identity.Stores
             return (await this.Connection.ExecuteScalarAsync<bool>(Sql.Users.GetEmailConfirmed, new { UserId = user.Id }));
         }
 
-        public async Task SetEmailConfirmedAsync(User user, bool confirmed)
+        public async Task SetEmailConfirmedAsync(User user, bool emailConfirmed)
         {
             if (user == null)
                 throw new ArgumentNullException("user");
 
-            await this.Connection.ExecuteAsync(Sql.Users.SetEmailConfirmed, new { UserId = user.Id, EmailConfirmed = confirmed });
+            await this.Connection.ExecuteAsync(Sql.Users.SetEmailConfirmed, new { UserId = user.Id, EmailConfirmed = emailConfirmed });
+
+            user.EmailConfirmed = emailConfirmed;
         }
 
         public async Task<User> FindByEmailAsync(string email)
@@ -379,6 +390,8 @@ namespace MVC5Start.Infrastructure.Identity.Stores
                 throw new ArgumentNullException("phoneNumber");
 
             await this.Connection.ExecuteAsync(Sql.Users.SetPhoneNumber, new { UserId = user.Id, PhoneNumber = phoneNumber });
+
+            user.PhoneNumber = phoneNumber;
         }
 
         public async Task<string> GetPhoneNumberAsync(User user)
@@ -397,24 +410,28 @@ namespace MVC5Start.Infrastructure.Identity.Stores
             return (await this.Connection.ExecuteScalarAsync<bool>(Sql.Users.GetPhoneNumberConfirmed, new { UserId = user.Id }));
         }
 
-        public async Task SetPhoneNumberConfirmedAsync(User user, bool confirmed)
+        public async Task SetPhoneNumberConfirmedAsync(User user, bool phoneNumberConfirmed)
         {
             if (user == null)
                 throw new ArgumentNullException("user");
 
-            await this.Connection.ExecuteAsync(Sql.Users.SetPhoneNumberConfirmed, new { UserId = user.Id, PhoneNumberConfirmed = confirmed });
+            await this.Connection.ExecuteAsync(Sql.Users.SetPhoneNumberConfirmed, new { UserId = user.Id, PhoneNumberConfirmed = phoneNumberConfirmed });
+
+            user.PhoneNumberConfirmed = phoneNumberConfirmed;
         }
 
         #endregion IUserPhoneNumberStore Members
 
         #region IUserTwoFactorStore Members
 
-        public async Task SetTwoFactorEnabledAsync(User user, bool enabled)
+        public async Task SetTwoFactorEnabledAsync(User user, bool twoFactorEnabled)
         {
             if (user == null)
                 throw new ArgumentNullException("user");
 
-            await this.Connection.ExecuteAsync(Sql.Users.SetTwoFactorEnabled, new { UserId = user.Id, TwoFactorEnabled = enabled });
+            await this.Connection.ExecuteAsync(Sql.Users.SetTwoFactorEnabled, new { UserId = user.Id, TwoFactorEnabled = twoFactorEnabled });
+
+            user.TwoFactorEnabled = twoFactorEnabled;
         }
 
         public async Task<bool> GetTwoFactorEnabledAsync(User user)
@@ -446,13 +463,17 @@ namespace MVC5Start.Infrastructure.Identity.Stores
             if (user == null)
                 throw new ArgumentNullException("user");
 
+            var lockoutEndDateUtc = lockoutEnd == DateTimeOffset.MinValue
+                ? new DateTime?()
+                : lockoutEnd.UtcDateTime;
+
             await this.Connection.ExecuteAsync(Sql.Users.SetLockoutEndDateUtc, new
             {
                 UserId = user.Id, 
-                LockoutEndDateUtc = lockoutEnd == DateTimeOffset.MinValue 
-                ? new DateTime?() 
-                : lockoutEnd.UtcDateTime
+                LockoutEndDateUtc = lockoutEndDateUtc
             });
+
+            user.LockoutEndDateUtc = lockoutEndDateUtc;
         }
 
         public async Task<int> IncrementAccessFailedCountAsync(User user)
@@ -508,12 +529,14 @@ namespace MVC5Start.Infrastructure.Identity.Stores
             return (await this.Connection.ExecuteScalarAsync<bool>(Sql.Users.GetLockoutEnabled, new { UserId = user.Id }));
         }
 
-        public async Task SetLockoutEnabledAsync(User user, bool enabled)
+        public async Task SetLockoutEnabledAsync(User user, bool lockoutEnabled)
         {
             if (user == null)
                 throw new ArgumentNullException("user");
 
-            await this.Connection.ExecuteAsync(Sql.Users.SetLockoutEnabled, new { UserId = user.Id, LockoutEnabled = enabled });
+            await this.Connection.ExecuteAsync(Sql.Users.SetLockoutEnabled, new { UserId = user.Id, LockoutEnabled = lockoutEnabled });
+
+            user.LockoutEnabled = lockoutEnabled;
         }
 
         #endregion IUserLockoutStore Members
@@ -559,6 +582,31 @@ namespace MVC5Start.Infrastructure.Identity.Stores
         #endregion IUserLastLoginStore Members
 
         #region Public Members
+
+        public async Task<int> CreateAndReturnIdAsync(User user)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user");
+
+            return await this.Connection.ExecuteScalarAsync<int>(Sql.Users.Insert + "; " + Sql.SelectScopeIdentity, new
+            {
+                user.FirstName,
+                user.LastName,
+                user.UserName,
+                user.PasswordHash,
+                user.SecurityStamp,
+                user.Email,
+                user.EmailConfirmed,
+                user.PhoneNumber,
+                user.PhoneNumberConfirmed,
+                user.TwoFactorEnabled,
+                user.LockoutEndDateUtc,
+                user.LockoutEnabled,
+                user.AccessFailedCount,
+                user.LastLogInAtUtc,
+                user.IsDisabled,
+            });
+        }
 
         public async Task<bool> IsDisabledAsync(int userId)
         {

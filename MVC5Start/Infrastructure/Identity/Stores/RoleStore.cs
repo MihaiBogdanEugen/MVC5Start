@@ -22,7 +22,13 @@ namespace MVC5Start.Infrastructure.Identity.Stores
             if (role == null)
                 throw new ArgumentNullException("role");
 
-            await this.Connection.ExecuteAsync(Sql.Roles.Insert, new { role.Name, role.Description });
+            var roleId = await this.Connection.ExecuteScalarAsync<int>(Sql.Roles.Insert + "; " + Sql.SelectScopeIdentity, new
+            {
+                role.Name, 
+                role.Description
+            });
+
+            role.Id = roleId;
         }
 
         public async Task UpdateAsync(Role role)

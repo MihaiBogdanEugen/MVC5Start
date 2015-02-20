@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace MVC5Start.Infrastructure.Identity.Managers
+﻿namespace MVC5Start.Infrastructure.Identity
 {
     public enum EnhancedSignInStatus
     {

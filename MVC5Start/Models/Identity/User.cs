@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.AspNet.Identity;
+using MVC5Start.Infrastructure.Validation;
 using MVC5Start.Models.Definitions;
-using MVC5Start.Models.Validation;
+using Constants = MVC5Start.Infrastructure.Constants;
 
 namespace MVC5Start.Models.Identity
 {
@@ -138,13 +140,42 @@ namespace MVC5Start.Models.Identity
             if (string.IsNullOrEmpty(this.SecurityStamp))
                 return ValidationResult.Failed("The 'SecurityStamp' value cannot be empty!");
 
-            if (this.Email.IsValid(100) == false)
-                return ValidationResult.Failed("The 'Email' value cannot be empty nor bigger than 100 chars!");
+            if (this.Email.IsValidEmail(100) == false)
+                return ValidationResult.Failed("The 'Email' value cannot be empty, bigger than 100 chars nor an invalid email address!");
 
             if (this.PhoneNumber.IsValid(100, allowEmpty: true) == false)
                 return ValidationResult.Failed("The 'PhoneNumber' value cannot be bigger than 100 chars!");
 
             return ValidationResult.Success;
+        }
+
+        public static ValidationResult IsValidPassword(string password)
+        {
+            if (password.IsValidPassword()) 
+                return ValidationResult.Success;
+
+            var tempList = new List<string>();
+                
+            if (Constants.PasswordRequireDigit)
+                tempList.Add("at least one digit");
+
+            if (Constants.PasswordRequireLowercase)
+                tempList.Add("at least one lowercase letter");
+
+            if (Constants.PasswordRequireUppercase)
+                tempList.Add("at least one uppercase letter");
+
+            if (Constants.PasswordRequireNonLetterOrDigit)
+                tempList.Add("at least one non letter or digit");
+
+            var temp = string.Join(", ", tempList); 
+
+            var errorMessage = string.Format(CultureInfo.InvariantCulture,
+                "Invalid password! A valid password must have at least {0} characters{1}!",
+                Constants.PasswordRequiredLength,
+                string.IsNullOrEmpty(temp) ? string.Empty : ", " + temp);
+
+            return ValidationResult.Failed(errorMessage);
         }
     }
 }

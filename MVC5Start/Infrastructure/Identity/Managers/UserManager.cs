@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Net.Mail;
 using System.Security.Claims;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Hangfire;
 using Microsoft.AspNet.Identity;
@@ -86,26 +83,20 @@ namespace MVC5Start.Infrastructure.Identity.Managers
             if (string.IsNullOrEmpty(password))
                 throw new ArgumentNullException("password");
 
-            var passwordStore = this.GetPasswordStore();
-
-            var result = await base.PasswordValidator.ValidateAsync(password);
+            var result = User.IsValidPassword(password);
             if (result.Succeeded == false)
-                return result;
+                return result.IdentityResult;
 
-            var hashedPassword = this.PasswordHasher.HashPassword(password);
+            user.PasswordHash = this.PasswordHasher.HashPassword(password);
+            user.SecurityStamp = Guid.NewGuid().ToString();
 
-            await passwordStore.SetPasswordHashAsync(user, hashedPassword);
-
-            if (this.SupportsUserSecurityStamp)
-                await this.GetSecurityStore().SetSecurityStampAsync(user, Guid.NewGuid().ToString());
+            if (this.UserLockoutEnabledByDefault)
+                user.LockoutEnabled = true;
 
             var validationResult = user.IsValid();
             if (validationResult.Succeeded == false)
                 return validationResult.IdentityResult;
 
-            if (this.UserLockoutEnabledByDefault && this.SupportsUserLockout)
-                await this.GetUserLockoutStore().SetLockoutEnabledAsync(user, true);
-                
             await this.Store.CreateAsync(user);
                 
             return IdentityResult.Success;   
