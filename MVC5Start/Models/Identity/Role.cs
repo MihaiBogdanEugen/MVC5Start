@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Web.UI;
 using Microsoft.AspNet.Identity;
 using MVC5Start.Infrastructure.Validation;
 using MVC5Start.Models.Definitions;

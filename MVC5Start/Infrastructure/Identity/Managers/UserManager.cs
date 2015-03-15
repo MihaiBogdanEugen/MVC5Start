@@ -18,7 +18,8 @@ namespace MVC5Start.Infrastructure.Identity.Managers
     {
         #region Constructors
 
-        public UserManager(DbConnectionInfo dbConnectionInfo, IIdentityMessageService emailService, IDataProtectionProvider dataProtectionProvider) : base(new UserStore(dbConnectionInfo))
+        public UserManager(DbConnectionInfo dbConnectionInfo, IIdentityMessageService emailService, IDataProtectionProvider dataProtectionProvider) 
+            : base(new UserStore(dbConnectionInfo))
         {
             #region User Configuration
 
